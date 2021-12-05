@@ -1,6 +1,6 @@
 body {
     background: rgb(2, 0, 36);
-    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 12%, rgba(97, 9, 121, 1) 57%, rgba(0, 212, 255, 1) 100%);
+    background: linear-gradient(120deg, rgb(63, 22, 58) 12%, rgba(97, 9, 121, 1) 57%, rgb(110, 1, 114) 100%);
 }
 
 .menu-button {
@@ -12,14 +12,15 @@ body {
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:20px;
+	font-size:30px;
 	font-weight:bold;
 	padding:13px 32px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
-    width: 400px;
+    width: 600px;
     text-align: center;
 }
+
 .menu-button:hover {
 	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
 	background-color:#408c99;
@@ -35,4 +36,14 @@ body {
 
 .menu > li {
     padding: 20px;
+    list-style: none;
+}
+
+.center {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
 }

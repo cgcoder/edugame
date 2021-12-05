@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <title>First Grade High Frequency Words</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    <script>
+        let wordList = [];
+        fetch('static/data/1_grade_list1.txt')
+            .then(response => response.text())
+            .then(data => {
+                wordList = data.split("\n").map(r => r.trim());
+                onClick();
+            });
+
+        const onClick = (e) => {
+            e && e.preventDefault();
+            const next = Math.floor(Math.random() * wordList.length);
+            console.log(next, wordList[next]);
+            document.getElementById("text").innerText = wordList[next];
+        }
+    </script>
+    <div class="center">
+        <a class="menu-button" onclick="onClick(event);"><span id="text"></span></a>
+    </div>
+</body>
+
+</html>
