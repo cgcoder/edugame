@@ -4,6 +4,8 @@
     <title>First Grade High Frequency Words</title>
     <link rel="stylesheet" href="static/style.css">
     <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="static/app.js"></script>
+    <meta name="viewport">
 </head>
 
 <body>
@@ -11,19 +13,39 @@
         let wordList = [];
         let next = 0;
         var synth = window.speechSynthesis;
+        var score = 0;
+        var currentScore = 0;
 
         fetch('static/data/1_grade_list1.txt')
             .then(response => response.text())
             .then(data => {
                 wordList = data.split("\n").map(r => r.trim());
-                onClick();
+                next = Math.floor(Math.random() * wordList.length);
+                document.getElementById("text").innerText = wordList[next];
             });
+
+        setInterval(() => {
+            document.getElementById("scoretext").innerHTML = currentScore;
+            if (currentScore < score) currentScore++;
+            else if (currentScore > score) currentScore--;
+        }, 50);
 
         const onClick = (e) => {
             e && e.preventDefault();
             next = Math.floor(Math.random() * wordList.length);
-            console.log(next, wordList[next]);
             document.getElementById("text").innerText = wordList[next];
+
+            const coin = document.createElement("div");
+            coin.setAttribute("id", "coin");
+            coin.setAttribute("class", "coin");
+            document.body.appendChild(coin);
+            coin.innerHTML = "<img src='static/dollar-coin.png' />"
+            const textPos = document.getElementById("text").getBoundingClientRect();
+            coin.style.top = textPos.top;
+            coin.style.left = textPos.left;
+            setTimeout(() => coin.style.animationName = "coinpop", 0);
+            setTimeout(() => document.body.removeChild(coin), 500);
+            score += 10;
         }
 
         const speak = (e) => {
@@ -34,6 +56,9 @@
             synth.speak(utterThis);
         }
     </script>
+    <div class="large-text">
+        <img src='static/dollar-coin.png' style="width: 80px;" /><span id="scoretext">0</span>
+    </div>
     <div class="center">
         <div>
             <a class="menu-button menu-button-large" onclick="onClick(event);"><span id="text"></span></a>

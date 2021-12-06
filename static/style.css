@@ -61,3 +61,30 @@ body {
     font-size: 80px;
     margin: 40px;
 }
+
+.coin {
+    position: absolute;
+    left: -1000px;
+    top: -1000px;
+    z-index: 0;
+    animation-duration: 0.5s;
+}
+
+#text {
+    z-index: 2;
+}
+
+@keyframes coinpop {
+    to {
+        top: 0px;
+        left: 80vw;
+        opacity: 0.5;
+    }
+}
+
+.large-text {
+    font-size: 100px;
+    color: white;
+    float: right;
+    padding: 20px;
+}
