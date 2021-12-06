@@ -1,5 +1,10 @@
 var cacheName = "edugame-pwa";
-var filesToCache = ["/", "/index.html", "/static"];
+var filesToCache = [
+  "/edugame",
+  "/edugame/index.html",
+  "/edugame/static/app.js",
+  "/edugame/static/style.css",
+];
 
 /* Start the service worker and cache all of the app's content */
 self.addEventListener("install", function (e) {
