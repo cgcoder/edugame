@@ -15,13 +15,16 @@
         var synth = window.speechSynthesis;
         var score = 0;
         var currentScore = 0;
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
 
-        fetch('static/data/1_grade_list1.txt')
+        fetch('static/data/' + params.file)
             .then(response => response.text())
             .then(data => {
                 wordList = data.split("\n").map(r => r.trim());
                 next = Math.floor(Math.random() * wordList.length);
-                document.getElementById("text").innerText = wordList[next];
+                const nospace = wordList[next].replace(/\s/g, "");
+                document.getElementById("text").innerText = nospace;
             });
 
         setInterval(() => {
@@ -33,7 +36,10 @@
         const onClick = (e) => {
             e && e.preventDefault();
             next = Math.floor(Math.random() * wordList.length);
-            document.getElementById("text").innerText = wordList[next];
+            const nospace = wordList[next].replace(/\s/g, "");
+
+
+            document.getElementById("text").innerText = nospace;
 
             const coin = document.createElement("div");
             coin.setAttribute("id", "coin");
@@ -52,18 +58,27 @@
             e && e.preventDefault();
             if (!synth) return;
 
-            var utterThis = new SpeechSynthesisUtterance(wordList[next]);
+            var utterThis = new SpeechSynthesisUtterance(wordList[next].replace(/\s/g, ""));
             synth.speak(utterThis);
+        }
+
+        const help = (e) => {
+            e && e.preventDefault();
+            document.getElementById("text").innerText = wordList[next].replace(/\s/g, '  ');
         }
     </script>
     <div class="large-text">
         <img src='static/dollar-coin.png' style="width: 80px;" /><span id="scoretext">0</span>
     </div>
-    <div class="center">
-        <div>
-            <a class="menu-button menu-button-large" onclick="onClick(event);"><span id="text"></span></a>
-        </div>
+    <div class="center center-y">
+        <a class="menu-button menu-button-large" onclick="onClick(event);"><span id="text"></span></a>
         <div class="icon-emoji"><a onclick="speak(event);"><span>🔊</span></a></div>
+        <div style="padding: 20px;">
+            <a href="#" onclick="help(event);" style="text-decoration: none;" class="large-text">help</a>
+        </div>
+        <div style="padding: 20px;">
+            <a href="/" style="text-decoration: none;" class="large-text">exit</a>
+        </div>
     </div>
 
 
