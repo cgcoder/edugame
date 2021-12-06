@@ -9,6 +9,9 @@
 <body>
     <script>
         let wordList = [];
+        let next = 0;
+        var synth = window.speechSynthesis;
+
         fetch('static/data/1_grade_list1.txt')
             .then(response => response.text())
             .then(data => {
@@ -18,16 +21,27 @@
 
         const onClick = (e) => {
             e && e.preventDefault();
-            const next = Math.floor(Math.random() * wordList.length);
+            next = Math.floor(Math.random() * wordList.length);
             console.log(next, wordList[next]);
             document.getElementById("text").innerText = wordList[next];
         }
+
+        const speak = (e) => {
+            e && e.preventDefault();
+            if (!synth) return;
+
+            var utterThis = new SpeechSynthesisUtterance(wordList[next]);
+            synth.speak(utterThis);
+        }
     </script>
-    <div class="center pyro">
-        <div class="before"></div>
-        <div class="after"></div>
-        <a class="menu-button menu-button-large" onclick="onClick(event);"><span id="text"></span></a>
+    <div class="center">
+        <div>
+            <a class="menu-button menu-button-large" onclick="onClick(event);"><span id="text"></span></a>
+        </div>
+        <div class="icon-emoji"><a onclick="speak(event);"><span>🔊</span></a></div>
     </div>
+
+
 </body>
 
 </html>
