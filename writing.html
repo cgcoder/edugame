@@ -38,8 +38,8 @@
             e && e.preventDefault();
             if (!synth) return;
 
-            var utterThis = new SpeechSynthesisUtterance(questions[next].replace(/\s/g, ""));
-            utterThis.rate = 0.75;
+            var utterThis = new SpeechSynthesisUtterance(questions[next].trim());
+            utterThis.rate = 0.9;
             synth.speak(utterThis);
             next = Math.floor(Math.random() * questions.length);
         }
