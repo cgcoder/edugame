@@ -34,14 +34,15 @@
         const speak = (e) => {
         }
 
-        const readNext = (e) => {
+        const readNext = (e, moveNext) => {
             e && e.preventDefault();
             if (!synth) return;
 
             var utterThis = new SpeechSynthesisUtterance(questions[next].trim());
             utterThis.rate = 0.9;
             synth.speak(utterThis);
-            next = Math.floor(Math.random() * questions.length);
+            if (moveNext)
+                next = Math.floor(Math.random() * questions.length);
         }
     </script>
     <div class="large-text">
@@ -49,7 +50,10 @@
     </div>
     <div class="center center-y">
         <div style="padding: 20px;">
-            <a href="#" onclick="readNext(event);" style="text-decoration: none;" class="large-text">Next</a>
+            <a href="#" onclick="readNext(event, false);" style="text-decoration: none;" class="large-text">Replay</a>
+        </div>
+        <div style="padding: 20px;">
+            <a href="#" onclick="readNext(event, true);" style="text-decoration: none;" class="large-text">Next</a>
         </div>
     </div>
 
