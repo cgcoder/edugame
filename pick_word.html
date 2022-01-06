@@ -10,7 +10,7 @@
 
 <body>
     <script>
-        let wordList = [];
+        let questions = [];
         let next = Math.floor(Math.random() * wordList.length);
         let subNext = -1;
         var synth = window.speechSynthesis;
@@ -22,9 +22,8 @@
         fetch('static/data/' + params.file)
             .then(response => response.text())
             .then(data => {
-                wordList = data.split("\n").map(r => r.trim());
-                next = Math.floor(Math.random() * wordList.length);
-                onClick(null);
+                questions = JSON.parse(data);
+                console.log(questions);
             });
 
         setInterval(() => {
@@ -34,43 +33,14 @@
         }, 50);
 
         const onClick = (e) => {
-            e && e.preventDefault();
-            const currentWords = wordList[next].split(",");
-            if (subNext < currentWords.length - 1) {
-                subNext++;
-            }
-            else {
-                next = Math.floor(Math.random() * wordList.length);
-                subNext = 0;
-            }
-            const nospace = wordList[next].split(",")[subNext].replace(/\s/g, "");
-
-            document.getElementById("text").innerText = nospace;
-
-            const coin = document.createElement("div");
-            coin.setAttribute("id", "coin");
-            coin.setAttribute("class", "coin");
-            document.body.appendChild(coin);
-            coin.innerHTML = "<img src='static/dollar-coin.png' />"
-            const textPos = document.getElementById("text").getBoundingClientRect();
-            coin.style.top = textPos.top;
-            coin.style.left = textPos.left;
-            setTimeout(() => coin.style.animationName = "coinpop", 0);
-            setTimeout(() => document.body.removeChild(coin), 500);
-            score += 10;
+            
         }
 
         const speak = (e) => {
-            e && e.preventDefault();
-            if (!synth) return;
-
-            var utterThis = new SpeechSynthesisUtterance(wordList[next].replace(/\s/g, ""));
-            synth.speak(utterThis);
         }
 
         const help = (e) => {
             e && e.preventDefault();
-            document.getElementById("text").innerText = wordList[next].split(",")[subNext].replace(/\s/g, '  ');
         }
     </script>
     <div class="large-text">

@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>First Grade High Frequency Words</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="static/app.js"></script>
+    <meta name="viewport">
+</head>
+
+<body>
+    <script>
+        let questions = [];
+        let next = Math.floor(Math.random() * questions.length);
+        let subNext = -1;
+        var synth = window.speechSynthesis;
+        var score = 0;
+        var currentScore = 0;
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+
+        fetch('static/data/' + params.file)
+            .then(response => response.text())
+            .then(data => {
+                questions = data.split("\n");
+                console.log(questions);
+                next = Math.floor(Math.random() * questions.length);
+            });
+
+        const onClick = (e) => {
+            
+        }
+
+        const speak = (e) => {
+        }
+
+        const readNext = (e) => {
+            e && e.preventDefault();
+            if (!synth) return;
+
+            var utterThis = new SpeechSynthesisUtterance(questions[next].replace(/\s/g, ""));
+            utterThis.rate = 0.75;
+            synth.speak(utterThis);
+            next = Math.floor(Math.random() * questions.length);
+        }
+    </script>
+    <div class="large-text">
+        <img src='static/dollar-coin.png' style="width: 80px;" /><span id="scoretext">0</span>
+    </div>
+    <div class="center center-y">
+        <div style="padding: 20px;">
+            <a href="#" onclick="readNext(event);" style="text-decoration: none;" class="large-text">Next</a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
