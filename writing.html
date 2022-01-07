@@ -11,21 +11,39 @@
 <body>
     <script>
         let questions = [];
-        let next = Math.floor(Math.random() * questions.length);
+        let next = -1;
         let subNext = -1;
         var synth = window.speechSynthesis;
         var score = 0;
         var currentScore = 0;
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
+        const randomizedIndex = [];
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
 
         fetch('static/data/' + params.file)
             .then(response => response.text())
             .then(data => {
                 questions = data.split("\n");
-                console.log(questions);
-                next = Math.floor(Math.random() * questions.length);
+                randomize();
             });
+
+        const randomize = () => {
+            for (let i = 0; i < questions.length; i++) {
+                randomizedIndex.push(i);
+            }
+
+            for (let i = 0; i < questions.length * 2; i++) {
+                const a = getRandomInt(questions.length);
+                const b = getRandomInt(questions.length);
+                const t = randomizedIndex[b];
+                randomizedIndex[b] = randomizedIndex[a];
+                randomizedIndex[a] = t;
+            }
+        }
 
         const onClick = (e) => {
             
@@ -35,14 +53,14 @@
         }
 
         const readNext = (e, moveNext) => {
+            if (moveNext || next < 0)
+                next = (next + 1) % questions.length;
             e && e.preventDefault();
             if (!synth) return;
 
-            var utterThis = new SpeechSynthesisUtterance(questions[next].trim());
+            var utterThis = new SpeechSynthesisUtterance(questions[randomizedIndex[next]].trim());
             utterThis.rate = 0.9;
             synth.speak(utterThis);
-            if (moveNext)
-                next = Math.floor(Math.random() * questions.length);
         }
     </script>
     <div class="large-text">
